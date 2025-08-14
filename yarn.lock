@@ -1065,6 +1065,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pythnetwork/pyth-sdk-solidity@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@pythnetwork/pyth-sdk-solidity@npm:4.2.0"
+  checksum: 10c0/05c3db88c8107400dd9079d503174bdf67bf76109ebf4184e35f909d55edffaa03f5319e93dd9b514a74579d9b0d7a395c509093e9909376bb329efdd3640a8d
+  languageName: node
+  linkType: hard
+
 "@rainbow-me/rainbowkit@npm:^2.2.8":
   version: 2.2.8
   resolution: "@rainbow-me/rainbowkit@npm:2.2.8"
@@ -1519,13 +1526,13 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-query@npm:^5.84.2":
-  version: 5.84.2
-  resolution: "@tanstack/react-query@npm:5.84.2"
+  version: 5.85.0
+  resolution: "@tanstack/react-query@npm:5.85.0"
   dependencies:
     "@tanstack/query-core": "npm:5.83.1"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/491914f8c61c5bb83e1eece53b33552d0d490ba9f122add35ae3078f10f675a6b0786c2e1d5940ccb9acf490d28c525d56893576c237090c22bfc70ef2ee0f3f
+  checksum: 10c0/8c7cce9121cd28b0405cff52bf89b280fd2927c35fdc7e5847eb3b807d44dc9eccbc30b27c12d1ceb4c665aca1ad95a1089cf035d8eebd7cf61c15d4a0f0a230
   languageName: node
   linkType: hard
 
@@ -2818,9 +2825,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001579":
-  version: 1.0.30001734
-  resolution: "caniuse-lite@npm:1.0.30001734"
-  checksum: 10c0/5869cb6a01e7a012a8c5d7b0482e2c910be3a2a469d4ef516a54db3f846fbaedb2600eeaa270dae9e2ad9328e33f39782e6f459405fcca620021f5f06694542d
+  version: 1.0.30001735
+  resolution: "caniuse-lite@npm:1.0.30001735"
+  checksum: 10c0/1cb74221f16f8835c903770c1cf88fb73a07298b8398396a2b97570136e8f691053ee5840eb589fe34b4ede14ab828c9421d893a67e43c26ef91ab052813cb8c
   languageName: node
   linkType: hard
 
@@ -2941,6 +2948,14 @@ __metadata:
   checksum: 10c0/c996b1cfdf95b6c90fee4dae37e332c8b6eb7d106430c17d538034c0ad9a1630cb194d2ab37293b1bdd4d779494beee7786d586a50bd9376fd6f7bcc2bd4c98f
   languageName: node
   linkType: hard
+
+"contracts@workspace:contracts":
+  version: 0.0.0-use.local
+  resolution: "contracts@workspace:contracts"
+  dependencies:
+    "@pythnetwork/pyth-sdk-solidity": "npm:^4.2.0"
+  languageName: unknown
+  linkType: soft
 
 "cookie-es@npm:^1.2.2":
   version: 1.2.2
@@ -4089,9 +4104,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"frontend@workspace:.":
+"frontend@workspace:frontend":
   version: 0.0.0-use.local
-  resolution: "frontend@workspace:."
+  resolution: "frontend@workspace:frontend"
   dependencies:
     "@eslint/eslintrc": "npm:^3"
     "@rainbow-me/rainbowkit": "npm:^2.2.8"
@@ -6362,6 +6377,12 @@ __metadata:
   checksum: 10c0/4eff0d4a5f9383566c7d7ec437b671cc51b25963bd61bf127c3f3d3f68e44a026d99b8d2f1ad344afff8d278a8fe70a8ea092650a716d22287e8bef7126bb2fa
   languageName: node
   linkType: hard
+
+"root-workspace-0b6124@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "root-workspace-0b6124@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "run-parallel@npm:^1.1.9":
   version: 1.2.0
