@@ -1,7 +1,7 @@
 'use client';
 
 import '@rainbow-me/rainbowkit/styles.css';
-import { getDefaultConfig, RainbowKitProvider, darkTheme, Theme } from '@rainbow-me/rainbowkit';
+import { getDefaultConfig, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import { baseSepolia, anvil } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ const config = getDefaultConfig({
   appName: 'NovaBridge',
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string, // same as that of LedgerVote, nobody uses that :')
   chains: [anvil, baseSepolia],
+  ssr: false
 });
 
 const queryClient = new QueryClient();

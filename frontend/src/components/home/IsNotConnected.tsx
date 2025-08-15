@@ -2,10 +2,15 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { motion } from 'framer-motion';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ModeToggle } from "../ui/ModeToggle";
 
-const supportedCurrencies = ["ETH/USD", "AUD/USD", "EUR/USD", "GBP/USD", "NZD/USD", "USD/BRL", "USD/CAD", "USD/CHF",
+interface PriceUpdate {
+  id: string;
+  price: number;
+}
+
+const supportedCurrencies = ["USD/ETH", "USD/AUD", "USD/EUR", "USD/GBP", "USD/NZD", "USD/BRL", "USD/CAD", "USD/CHF",
                              "USD/CLP", "USD/CNH", "USD/COP", "USD/HKD", "USD/IDR", "USD/INR", "USD/JPY", "USD/KRW",
                              "USD/MXN", "USD/NOK", "USD/PEN", "USD/PHP", "USD/SEK", "USD/SGD", "USD/TRY", "USD/TWD", 
                              "USD/ZAR"];
@@ -18,14 +23,46 @@ const supportedCurrenySymbols = [
 
 const IsNotConnected = () => {
 
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
+  const [prices, setPrices] = useState<{ pair: string, price: number }[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const es = new EventSource("/api/price-stream");
+
+    es.onmessage = (event: MessageEvent) => {
+      const data: PriceUpdate = JSON.parse(event.data);
+      if (Array.isArray(data)) {
+        setPrices(data);
+      }
+    };
+
+    es.onerror = (err) => {
+      console.error("Frontend SSE error:", err);
+      es.close();
+    };
+
+    return () => es.close();
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % supportedCurrencies.length);
     }, 2000); // Change every 2s
     return () => clearInterval(interval);
   }, []);
+
+  const toInvert = ["ETH/USD", "AUD/USD", "EUR/USD", "GBP/USD", "NZD/USD"];
+
+  const processedPrices = prices.map(({ pair, price }) => {
+    if (toInvert.includes(pair)) {
+      const [base, quote] = pair.split("/");
+      return {
+        pair: `${quote}/${base}`,
+        price: +(1 / price),
+      };
+    }
+    return { pair, price };
+  });
 
   return (
     <div className="overflow-hidden">
@@ -70,17 +107,51 @@ const IsNotConnected = () => {
 
           <div className="w-full mt-8 overflow-hidden">
             <div className="flex whitespace-nowrap animate-marquee text-slate-700 dark:text-slate-200">
-              {supportedCurrencies.map((currency, idx) => (
+              {supportedCurrencies.map((currency, idx) => {
+                const priceObj = processedPrices.find(p => p.pair === currency);
+                return (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl shadow bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700 text-center min-w-[120px]"
+                  >
+                    <div className="text-2xl font-semibold">
+                      {supportedCurrenySymbols[idx]} <span className="text-xs text-slate-400">{currency}</span>
+                    </div>
+                    <div className="mt-2 text-xl text-indigo-600 dark:text-indigo-300">
+                      {priceObj ? priceObj.price.toFixed(2) : "..."}
+                    </div>
+                  </div>
+                );
+              })}
+              {/* Duplicate list for seamless loop */}
+              {supportedCurrencies.map((currency, idx) => {
+                const priceObj = processedPrices.find(p => p.pair === currency);
+                console.log(priceObj)
+                return (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl shadow bg-white dark:bg-gray-900 border border-slate-200 dark:border-slate-700 text-center min-w-[120px]"
+                  >
+                    <div className="text-2xl font-semibold">
+                      {supportedCurrenySymbols[idx]} <span className="text-xs text-slate-400">{currency}</span>
+                    </div>
+                    <div className="mt-2 text-xl text-indigo-600 dark:text-indigo-300">
+                      {priceObj ? priceObj.price.toFixed(4) : "..."}
+                    </div>
+                  </div>
+                );
+              })}
+              {/* {supportedCurrencies.map((currency, idx) => (
                 <span key={idx} className="mx-3 p-2 px-3 rounded-2xl font-medium border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
                   {currency}
                 </span>
-              ))}
+              ))} */}
               {/* Duplicate list for seamless loop */}
-              {supportedCurrencies.map((currency, idx) => (
+              {/* {supportedCurrencies.map((currency, idx) => (
                 <span key={`dup-${idx}`} className="mx-3 py-2 px-3 rounded-2xl font-medium border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
                   {currency}
                 </span>
-              ))}
+              ))} */}
             </div>
           </div>
 
