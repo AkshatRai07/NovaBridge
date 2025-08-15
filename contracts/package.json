@@ -1,7 +1,0 @@
-{
-  "name": "contracts",
-  "packageManager": "yarn@4.5.2",
-  "dependencies": {
-    "@pythnetwork/pyth-sdk-solidity": "^4.2.0"
-  }
-}

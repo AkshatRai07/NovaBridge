@@ -1,7 +1,7 @@
 'use client';
 
 import '@rainbow-me/rainbowkit/styles.css';
-import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { getDefaultConfig, RainbowKitProvider, darkTheme, Theme } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import { baseSepolia, anvil } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -15,11 +15,20 @@ const config = getDefaultConfig({
 
 const queryClient = new QueryClient();
 
+const myTheme = {
+  ...darkTheme(),
+  colors: {
+    ...darkTheme().colors,
+    accentColor: '#4f39f6',  // your custom background color
+    accentColorForeground: '#ffffff',        // your custom text color
+  },
+};
+
 export const Web3Provider = ( {children}: {children : ReactNode} ) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
+        <RainbowKitProvider modalSize="compact" theme={myTheme}>
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>
